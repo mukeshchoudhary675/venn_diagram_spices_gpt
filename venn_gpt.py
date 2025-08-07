@@ -65,15 +65,15 @@ if uploaded_file:
             fig = plot_venn(data, com)
             st.pyplot(fig)
 
-        # Download PNG
-        buffer = BytesIO()
-        fig.savefig(buffer, format="png", dpi=300, bbox_inches="tight")
-        st.download_button(
-            label="📥 Download Venn as PNG",
-            data=buffer.getvalue(),
-            file_name=f"{all_commodities}_venn.pdf",
-            mime="pdf"
-        )
+        # # Download PNG
+        # buffer = BytesIO()
+        # fig.savefig(buffer, format="png", dpi=300, bbox_inches="tight")
+        # st.download_button(
+        #     label="📥 Download Venn as PNG",
+        #     data=buffer.getvalue(),
+        #     file_name=f"{all_commodities}_venn.pdf",
+        #     mime="pdf"
+        # )
     else:
         st.subheader(f"📈 Venn Diagram: {selected_commodity}")
         data = df if selected_commodity == "Overall" else df[df["Commodity"] == selected_commodity]
