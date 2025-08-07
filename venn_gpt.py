@@ -36,19 +36,22 @@ if uploaded_file:
         set_unsafe = set(data[data["Unsafe"]]["Order ID"])
         set_substandard = set(data[data["Sub-Standard"]]["Order ID"])
         set_mislabelled = set(data[data["Mis-labelled"]]["Order ID"])
-
+    
         fig, ax = plt.subplots(figsize=(figure_width, figure_height))
         v = venn3_unweighted([set_unsafe, set_substandard, set_mislabelled],
                              set_labels=("Unsafe", "Sub-Standard", "Mis-labelled"))
-
-        for label in ['A', 'B', 'C']:
-            if v.set_labels.get(label):
-                v.set_labels[label].set_fontsize(label_fontsize)
-
+    
+        # Fix: apply font size to set labels safely
+        if v.set_labels:
+            for lbl in v.set_labels:
+                if lbl:
+                    lbl.set_fontsize(label_fontsize)
+    
+        # Font size for intersection values
         for subset in v.subset_labels:
             if subset:
                 subset.set_fontsize(value_fontsize)
-
+    
         plt.title(title, fontsize=label_fontsize + 2)
         return fig
 
