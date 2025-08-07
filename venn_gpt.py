@@ -27,10 +27,10 @@ if uploaded_file:
     )
     show_all = st.sidebar.checkbox("Show All 14 Venn Diagrams", value=False)
 
-    figure_width = st.sidebar.slider("Figure Width", 4, 10, 6)
-    figure_height = st.sidebar.slider("Figure Height", 4, 10, 6)
-    label_fontsize = st.sidebar.slider("Label Font Size", 8, 24, 14)
-    value_fontsize = st.sidebar.slider("Value Font Size", 8, 24, 10)
+    figure_width = st.sidebar.slider("Figure Width", 1, 10, 6)
+    figure_height = st.sidebar.slider("Figure Height", 1, 10, 6)
+    label_fontsize = st.sidebar.slider("Label Font Size", 4, 24, 14)
+    value_fontsize = st.sidebar.slider("Value Font Size", 4, 24, 10)
 
     def plot_venn(data, title):
         set_unsafe = set(data[data["Unsafe"]]["Order ID"])
@@ -64,6 +64,16 @@ if uploaded_file:
             data = df if com == "Overall" else df[df["Commodity"] == com]
             fig = plot_venn(data, com)
             st.pyplot(fig)
+
+        # Download PNG
+        buffer = BytesIO()
+        fig.savefig(buffer, format="png", dpi=300, bbox_inches="tight")
+        st.download_button(
+            label="📥 Download Venn as PNG",
+            data=buffer.getvalue(),
+            file_name=f"{all_commodities}_venn.pdf",
+            mime="pdf"
+        )
     else:
         st.subheader(f"📈 Venn Diagram: {selected_commodity}")
         data = df if selected_commodity == "Overall" else df[df["Commodity"] == selected_commodity]
