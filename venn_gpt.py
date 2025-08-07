@@ -23,17 +23,17 @@ if uploaded_file:
     
 
     def plot_venn(data, title):
-    set_unsafe = set(data[data["Unsafe"]]["Order ID"])
-    set_substandard = set(data[data["Sub-Standard"]]["Order ID"])
-    set_mislabelled = set(data[data["Mis-labelled"]]["Order ID"])
-
-    # Plot using unweighted Venn diagram (equal circle sizes)
-    plt.figure(figsize=(4, 4))
-    venn3_unweighted([set_unsafe, set_substandard, set_mislabelled],
-                     set_labels=("Unsafe", "Sub-Standard", "Mis-labelled"))
-    plt.title(title)
-    st.pyplot(plt.gcf())
-    plt.close()
+        set_unsafe = set(data[data["Unsafe"]]["Order ID"])
+        set_substandard = set(data[data["Sub-Standard"]]["Order ID"])
+        set_mislabelled = set(data[data["Mis-labelled"]]["Order ID"])
+    
+        # Plot using unweighted Venn diagram (equal circle sizes)
+        plt.figure(figsize=(4, 4))
+        venn3_unweighted([set_unsafe, set_substandard, set_mislabelled],
+                         set_labels=("Unsafe", "Sub-Standard", "Mis-labelled"))
+        plt.title(title)
+        st.pyplot(plt.gcf())
+        plt.close()
 
 
     st.subheader("Overall Venn Diagram")
