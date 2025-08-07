@@ -3,6 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib_venn import venn3
 from io import StringIO
+from matplotlib_venn import venn3_unweighted
 
 st.title("Venn Diagram Generator for FSSR Classifications")
 
@@ -19,17 +20,21 @@ if uploaded_file:
     df_filtered["Sub-Standard"] = df_filtered["Overall Quality Classification"].str.strip().str.lower() == "sub-standard"
     df_filtered["Mis-labelled"] = df_filtered["Overall Labelling Complaince"].str.strip().str.lower() == "mis-labelled"
 
-    def plot_venn(data, title):
-        set_unsafe = set(data[data["Unsafe"]]["Order ID"])
-        set_substandard = set(data[data["Sub-Standard"]]["Order ID"])
-        set_mislabelled = set(data[data["Mis-labelled"]]["Order ID"])
+    
 
-        plt.figure(figsize=(4, 4))
-        venn3([set_unsafe, set_substandard, set_mislabelled],
-              set_labels=("Unsafe", "Sub-Standard", "Mis-labelled"))
-        plt.title(title)
-        st.pyplot(plt.gcf())
-        plt.close()
+    def plot_venn(data, title):
+    set_unsafe = set(data[data["Unsafe"]]["Order ID"])
+    set_substandard = set(data[data["Sub-Standard"]]["Order ID"])
+    set_mislabelled = set(data[data["Mis-labelled"]]["Order ID"])
+
+    # Plot using unweighted Venn diagram (equal circle sizes)
+    plt.figure(figsize=(4, 4))
+    venn3_unweighted([set_unsafe, set_substandard, set_mislabelled],
+                     set_labels=("Unsafe", "Sub-Standard", "Mis-labelled"))
+    plt.title(title)
+    st.pyplot(plt.gcf())
+    plt.close()
+
 
     st.subheader("Overall Venn Diagram")
     plot_venn(df_filtered, "Overall")
